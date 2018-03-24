@@ -1,0 +1,115 @@
+#
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-30 16:30+0000\n"
+"PO-Revision-Date: 2018-01-30 15:40+0000\n"
+"Last-Translator: Esteban M. Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Italian (http://www.transifex.com/spirit-project/spirit/"
+"language/it/)\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:13
+msgid "site name"
+msgstr "nome del sito"
+
+#: forms.py:14
+msgid "site description"
+msgstr "descrizione del sito"
+
+#: forms.py:15
+msgid "footer snippet"
+msgstr "snippet di piè di pagina"
+
+#: forms.py:17
+msgid "This gets rendered just before the footer in your template."
+msgstr ""
+"Questo viene visualizzato appena prima che il piè di pagina nel template."
+
+#: forms.py:18
+msgid "comments per page"
+msgstr "commenti per pagina"
+
+#: forms.py:19
+msgid "topics per page"
+msgstr "topics per pagina"
+
+#: templates/spirit/admin/_side_menu.html:3
+msgid "Show menu"
+msgstr "Mostra menu"
+
+#: templates/spirit/admin/_side_menu.html:9
+#: templates/spirit/admin/dashboard.html:5
+#: templates/spirit/admin/dashboard.html:11
+msgid "Dashboard"
+msgstr "Cruscotto"
+
+#: templates/spirit/admin/_side_menu.html:10
+msgid "Basic settings"
+msgstr "Impostazioni di base"
+
+#: templates/spirit/admin/_side_menu.html:11
+#: templates/spirit/admin/dashboard.html:47
+msgid "Categories"
+msgstr "Categorie"
+
+#: templates/spirit/admin/_side_menu.html:12
+#: templates/spirit/admin/dashboard.html:31
+msgid "Topics"
+msgstr "Topics"
+
+#: templates/spirit/admin/_side_menu.html:13
+msgid "Users"
+msgstr "Utenti"
+
+#: templates/spirit/admin/_side_menu.html:14
+#: templates/spirit/admin/dashboard.html:43
+msgid "Flags"
+msgstr "Segnalazioni"
+
+#: templates/spirit/admin/config_basic.html:5
+#: templates/spirit/admin/config_basic.html:11
+msgid "Basic Settings"
+msgstr "Impostazioni Di Base"
+
+#: templates/spirit/admin/config_basic.html:17
+msgid "Save"
+msgstr "Salva"
+
+#: templates/spirit/admin/dashboard.html:14
+msgid "Software"
+msgstr "Software"
+
+#: templates/spirit/admin/dashboard.html:17
+msgid "Installed"
+msgstr "Installato"
+
+#: templates/spirit/admin/dashboard.html:18
+msgid "Latest"
+msgstr "Ultima"
+
+#: templates/spirit/admin/dashboard.html:22
+msgid "Statistics"
+msgstr "Statistiche"
+
+#: templates/spirit/admin/dashboard.html:27
+msgid "Members"
+msgstr "Membri"
+
+#: templates/spirit/admin/dashboard.html:35
+msgid "Comments"
+msgstr "Commenti"
+
+#: templates/spirit/admin/dashboard.html:39
+msgid "Likes"
+msgstr "Mi Piace"
+
+#: views.py:30
+msgid "Settings updated!"
+msgstr "Impostazioni aggiornate!"
