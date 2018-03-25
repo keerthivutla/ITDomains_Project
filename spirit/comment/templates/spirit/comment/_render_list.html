@@ -155,7 +155,26 @@
     s.modify('extend','forward','word');
     var a = s.toString();
     s.modify('move','forward','character');
-     alert(b+a);
+    alert(b+a);
+    var xmlhttp = new XMLHttpRequest();
+    var url = "https://owlbot.info/api/v2/dictionary/" + b+a + "?format=json";
+    var myArr;
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            myArr = JSON.parse(this.responseText);
+            try {
+              console.log(myArr[0].definition);
+              alert(myArr[0].definition);
+            } catch (e) {
+              alert("Not Found");
+            }
+
+            // myFunction(myArr);
+        }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xmlhttp.send();
 
    });
 	</script>
