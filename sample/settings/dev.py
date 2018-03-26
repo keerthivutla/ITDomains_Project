@@ -21,7 +21,7 @@ ADMINS = (('John', 'john@example.com'), )  # Log email to console when DEBUG = F
 
 SECRET_KEY = "DEV"
 
-ALLOWED_HOSTS = ['127.0.0.1', '172.16.81.205' ]
+ALLOWED_HOSTS = ['127.0.0.1', ]
 
 # INSTALLED_APPS.extend([
 #    'debug_toolbar',

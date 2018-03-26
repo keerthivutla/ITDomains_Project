@@ -6842,7 +6842,13 @@ input[type="submit"].button,
   float: left;
   font-size: 28px;
   line-height: 48px;
-  color: #444444; }
+  color: red; }
+
+  .header-logo1 {
+    float: left;
+    font-size: 28px;
+    line-height: 48px;
+    color: red; }
 
 .header-link {
   float: right;
@@ -7441,7 +7447,7 @@ ul.reply-markdown {
 /*
 div.container {
   @include outer-container;
-  
+
   div.element {
     @include span-columns(4);
 	//styles
@@ -7450,18 +7456,18 @@ div.container {
       @include span-columns(4);
 	  //styles
     }
-	
+
 	@include media( $medium-only ) {
 	  @include omega(2n);
 	  //only for omega.
     }
-	
+
 	@include media( $large ) {
       @include span-columns(3);
 	  //styles
 	}
   }
-  
-  
+
+
 }
 */

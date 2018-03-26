@@ -6840,9 +6840,9 @@ input[type="submit"].button,
 
 .header-logo {
   float: left;
-  font-size: 28px;
+  font-size: 60px;
   line-height: 48px;
-  color: #444444; }
+  color: blue; }
 
 .header-link {
   float: right;
@@ -7441,7 +7441,7 @@ ul.reply-markdown {
 /*
 div.container {
   @include outer-container;
-  
+
   div.element {
     @include span-columns(4);
 	//styles
@@ -7450,18 +7450,18 @@ div.container {
       @include span-columns(4);
 	  //styles
     }
-	
+
 	@include media( $medium-only ) {
 	  @include omega(2n);
 	  //only for omega.
     }
-	
+
 	@include media( $large ) {
       @include span-columns(3);
 	  //styles
 	}
   }
-  
-  
+
+
 }
 */
