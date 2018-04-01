@@ -147,34 +147,135 @@
 
 	});
   $(".comment-text").click(function(){
-    // alert(12);
-     var s = window.getSelection();
+    function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+// Helper method to parse the title tag from the response.
+function getTitle(text) {
+  return text.match('<title>(.*)?</title>')[1];
+}
+
+  var url = 'https://utslogin.nlm.nih.gov/cas/v1/api-key/TGT-109712-WbvyH5JA4belY0zLAHpy3hf0KVjRaFa7AGFUpaHdiYCaYHkuXb-cas';
+  var data = "service=http%3A%2F%2Fumlsks.nlm.nih.gov";
+  var xhr = createCORSRequest('POST', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+  var text;
+  // Response handlers.
+  xhr.onload = function() {
+    text = xhr.responseText;
+    // var title = getTitle(text);
+    // alert('Response from CORS request to ' + url + ': ' + text);
+    console.log(text);
+    // return text;
+    // get1(text);
+    console.log("ST is" + text);
+    var s = window.getSelection();
     s.modify('extend','backward','word');
     var b = s.toString();
-
     s.modify('extend','forward','word');
     var a = s.toString();
     s.modify('move','forward','character');
-    alert(b+a);
-    var xmlhttp = new XMLHttpRequest();
-    var url = "https://owlbot.info/api/v2/dictionary/" + b+a + "?format=json";
-    var myArr;
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            myArr = JSON.parse(this.responseText);
-            try {
-              console.log(myArr[0].definition);
-              alert(myArr[0].definition);
-            } catch (e) {
-              alert("Not Found");
-            }
+    // alert(b+a);
+    url1 = 'https://uts-ws.nlm.nih.gov/rest/search/current?string='+b+a+/*'&searchType=exact'+*/'&ticket='+text;
+    console.log(url1);
+    // var data = "service=http%3A%2F%2Fumlsks.nlm.nih.gov";
+    xhr1 = createCORSRequest('GET', url1);
+    if (!xhr1) {
+      alert('CORS not supported');
+      return;
+    }
 
-            // myFunction(myArr);
+    // Response handlers.
+     var myArr;
+     var iden_num;
+    xhr1.onload = function() {
+      // text = xhr1.responseText;
+      // var title = getTitle(text);
+      // alert('Response from CORS request to ' + url + ': ' + text);
+      // console.log(text);
+      myArr = JSON.parse(this.responseText);
+      iden_num =  myArr.result.results[0].ui;
+      console.log(myArr.result.results);
+
+      var xhr2 = createCORSRequest('POST', url);
+      if (!xhr2) {
+        alert('CORS not supported');
+        return;
+      }
+      var text;
+      // Response handlers.
+      xhr2.onload = function() {
+        text = xhr2.responseText;
+        url2 = 'https://uts-ws.nlm.nih.gov/rest/content/current/CUI/' +iden_num+'/definitions?ticket='+String(text);
+        console.log(url2);
+        // var data = "service=http%3A%2F%2Fumlsks.nlm.nih.gov";
+        xhr3 = createCORSRequest('GET', url2);
+        if (!xhr3) {
+          alert('CORS not supported');
+          return;
         }
+
+        // Response handlers.
+         var myArr1;
+        xhr3.onload = function() {
+          text = xhr3.responseText;
+          // var title = getTitle(text);
+          // alert('Response from CORS request to ' + url + ': ' + text);
+          console.log(text);
+          myArr1 = JSON.parse(this.responseText);
+          console.log(myArr1.result);
+          alert(myArr1.result[0].value);
+        };
+
+        xhr3.onerror = function() {
+          alert('Woops, there was an error making the request.');
+        };
+        xhr3.send();
+      }
+      xhr2.onerror = function() {
+        alert('Woops, there was an error making the request.');
+      };
+      xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr2.send(data);
     };
-    xmlhttp.open("GET", url, true);
-    xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-    xmlhttp.send();
+
+    xhr1.onerror = function() {
+      alert('Woops, there was an error making the request.');
+    };
+    xhr1.send();
+  };
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send(data);
+
+
+
+// Make the actual CORS request.
+  // This is a sample server that supports CORS.
+  // Get Serv Tick
+
+  // get1();
+  // get(text);
+  // Get CUI
 
    });
 	</script>

@@ -81,6 +81,32 @@ ST_BASE_DIR = os.path.dirname(__file__)
 # Django & Spirit settings defined below...
 #
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+'127.0.0.1:8000',
+)
+
+CORS_ALLOW_METHODS = (
+'GET',
+'POST',
+'PUT',
+'PATCH',
+'DELETE',
+'OPTIONS'
+)
+
+CORS_ALLOW_HEADERS = (
+# 'Access-Control-Allow-Origin',
+'x-requested-with',
+'content-type',
+'accept',
+'origin',
+'authorization',
+'x-csrftoken'
+)
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -116,7 +142,7 @@ INSTALLED_APPS = [
     'spirit.comment.history',
     'spirit.comment.like',
     'spirit.comment.poll',
-
+    'corsheaders',
     # 'spirit.core.tests'
 ]
 
@@ -145,10 +171,12 @@ LOGIN_URL = 'spirit:user:auth:login'
 LOGIN_REDIRECT_URL = 'spirit:user:update'
 
 MIDDLEWARE_CLASSES = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
