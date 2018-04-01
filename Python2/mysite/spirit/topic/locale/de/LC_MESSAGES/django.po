@@ -1,0 +1,176 @@
+#
+# Translators:
+# Sven Hessenmüller <sven.hessenmueller@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-30 16:30+0000\n"
+"PO-Revision-Date: 2018-01-30 16:04+0000\n"
+"Last-Translator: Esteban M. Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: German (http://www.transifex.com/spirit-project/spirit/"
+"language/de/)\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:35
+msgid "Category"
+msgstr "Kategorie"
+
+#: forms.py:36
+msgid "Choose a category"
+msgstr "Kategorie auswählen"
+
+#: models.py:29
+msgid "category"
+msgstr "Kategorie"
+
+#: models.py:31
+msgid "title"
+msgstr "Titel"
+
+#: models.py:33
+msgid "date"
+msgstr "Datum"
+
+#: models.py:34
+msgid "last active"
+msgstr "zuletzt aktiv"
+
+#: models.py:35
+msgid "reindex at"
+msgstr ""
+
+#: models.py:37
+msgid "pinned"
+msgstr "festgeheftet"
+
+#: models.py:38
+msgid "globally pinned"
+msgstr "global festgeheftet"
+
+#: models.py:39
+msgid "closed"
+msgstr "geschlossen"
+
+#: models.py:42
+msgid "views count"
+msgstr "gelesen"
+
+#: models.py:43
+msgid "comment count"
+msgstr "Kommentare"
+
+#: models.py:49
+msgid "topic"
+msgstr "Thema"
+
+#: models.py:50
+msgid "topics"
+msgstr "Themen"
+
+#: templates/spirit/topic/_render_list.html:45
+msgid "There are no topics here, yet"
+msgstr "Es gibt keine Themen, bis jetzt..."
+
+#: templates/spirit/topic/_top_bar.html:8
+#: templates/spirit/topic/_top_bar.html:19
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
+#: templates/spirit/topic/_top_bar.html:17
+msgid "All Subcategories"
+msgstr "Alle Unterkategorien"
+
+#: templates/spirit/topic/_top_bar.html:27
+#: templates/spirit/topic/_top_bar.html:29
+msgid "Create Topic"
+msgstr "Thema erstellen"
+
+#: templates/spirit/topic/active.html:5
+msgid "Latest active topics"
+msgstr "zuletzt aktive Themen"
+
+#: templates/spirit/topic/detail.html:10
+msgid "Main"
+msgstr "Main"
+
+#: templates/spirit/topic/detail.html:30 templates/spirit/topic/detail.html:32
+msgid "edit"
+msgstr "editieren"
+
+#: templates/spirit/topic/detail.html:42
+msgid "Select comments to move"
+msgstr "Kommentar zum verschieben auswählen"
+
+#: templates/spirit/topic/detail.html:45
+msgid "Undelete topic"
+msgstr "Thema wiederherstellen"
+
+#: templates/spirit/topic/detail.html:47
+msgid "Delete topic"
+msgstr "Thema löschen"
+
+#: templates/spirit/topic/detail.html:51
+msgid "Open topic"
+msgstr "Thema öffnen"
+
+#: templates/spirit/topic/detail.html:53
+msgid "Close topic"
+msgstr "Thema schließen"
+
+#: templates/spirit/topic/detail.html:57
+msgid "Unpin topic"
+msgstr "Thema loslösen"
+
+#: templates/spirit/topic/detail.html:59
+msgid "Pin topic"
+msgstr "Thema gefestigen"
+
+#: templates/spirit/topic/detail.html:63
+msgid "Unpin topic globally"
+msgstr "Thema global loslösen"
+
+#: templates/spirit/topic/detail.html:65
+msgid "Pin topic globally"
+msgstr "Thema global festheften"
+
+#: templates/spirit/topic/detail.html:74
+msgid "Topic id"
+msgstr "Themen id"
+
+#: templates/spirit/topic/detail.html:76
+msgid "Move"
+msgstr "verschiebe"
+
+#: templates/spirit/topic/detail.html:90
+msgid "Reply"
+msgstr "Antworten"
+
+#: templates/spirit/topic/moderate.html:5
+#: templates/spirit/topic/moderate.html:9
+msgid "Moderate topic"
+msgstr "Thema moderieren"
+
+#: templates/spirit/topic/moderate.html:14
+msgid "Apply"
+msgstr "akzeptieren"
+
+#: templates/spirit/topic/publish.html:5 templates/spirit/topic/publish.html:21
+msgid "Publish topic"
+msgstr "Thema veröffentlichen"
+
+#: templates/spirit/topic/publish.html:37
+msgid "Publish"
+msgstr "veröffentlichen"
+
+#: templates/spirit/topic/update.html:5 templates/spirit/topic/update.html:9
+msgid "Update topic"
+msgstr "Thema aktualisieren"
+
+#: templates/spirit/topic/update.html:15
+msgid "Update"
+msgstr "aktualisieren"
