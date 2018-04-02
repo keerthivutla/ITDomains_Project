@@ -1,5 +1,6 @@
 {% load spirit_tags i18n %}
 
+
 <div class="comments">
 
     {% for c in comments %}
@@ -25,7 +26,7 @@
                                 {% if c.modified_count > 0 %}
                                     <li><a href="{% url "spirit:comment:history:detail" comment_id=c.pk %}"><i class="fa fa-pencil"></i> {{ c.modified_count }}</a></li>
                                 {% endif %}
-
+                                ""
                                 <li title="{{ c.date }}">{{ c.date|shortnaturaltime }}</li>
                             </ul>
 
@@ -129,6 +130,10 @@
 </div>
 
 
+<div class="comments1">
+  Vineet
+</div>
+
     <script>
 
     $( document ).ready(function() {
@@ -168,7 +173,7 @@ function getTitle(text) {
   return text.match('<title>(.*)?</title>')[1];
 }
 
-  var url = 'https://utslogin.nlm.nih.gov/cas/v1/api-key/TGT-109712-WbvyH5JA4belY0zLAHpy3hf0KVjRaFa7AGFUpaHdiYCaYHkuXb-cas';
+  var url = 'https://utslogin.nlm.nih.gov/cas/v1/api-key/TGT-133718-VLFWLWe5bDII4IcG0pe3ZpsMrG27cW22gWQrV7c6dDHhu0o2yI-cas';
   var data = "service=http%3A%2F%2Fumlsks.nlm.nih.gov";
   var xhr = createCORSRequest('POST', url);
   if (!xhr) {
@@ -241,6 +246,10 @@ function getTitle(text) {
           myArr1 = JSON.parse(this.responseText);
           console.log(myArr1.result);
           alert(myArr1.result[0].value);
+          var x = b+a;
+            document.getElementById('def').innerHTML="Word - "+x.bold();
+            var y = myArr1.result[0].value;
+          document.getElementById('abcd').innerHTML="Meaning - "+y.bold();
         };
 
         xhr3.onerror = function() {

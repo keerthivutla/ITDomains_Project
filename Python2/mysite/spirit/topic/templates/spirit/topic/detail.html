@@ -6,6 +6,7 @@
 
 {% block content %}
 
+
         <ul class="nav">
             <li><a href="{% url "spirit:index" %}" >{% trans "Categories" %}</a><i class="fa fa-chevron-right"></i></li>
 
@@ -16,7 +17,8 @@
 		    <li><a href="{{ topic.category.get_absolute_url }}" >{{ topic.category.title }}</a></li>
         </ul>
 
-        <h1 class="headline">    
+
+        <h1 class="headline">
             {% if topic.is_pinned or topic.is_globally_pinned %}
                 <i class="fa fa-thumb-tack"></i>
             {% endif %}
@@ -104,8 +106,26 @@
                         <div class="comment-body">
                             {% render_comments_form topic=topic %}
                         </div>
+          {% endif %}
+          {% endif %}
                         <div class="row">
                     <!-- column -->
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title">History of Meanings</h4>
+                                <div class="flot-chart">
+
+                                </div>
+                            </div>
+                            <div id="def">
+                              No word searched.
+                            </div>
+                            <div id="abcd">
+                            Please select a word.
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-block">
@@ -128,14 +148,14 @@
                             {{ keywords }}
                         </div>
                     </div>
-                    
+
                 </div>
 
-                                
+
                     </div>
 
                 </div>
-            {% endif %}
+
 
             <script>
                 $( document ).ready(function() {
@@ -155,6 +175,6 @@
 
                 });
             </script>
-        {% endif %}
+
 
 {% endblock %}
