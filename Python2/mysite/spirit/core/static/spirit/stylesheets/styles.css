@@ -7642,9 +7642,12 @@ textarea {
     background: #fff;
     resize: vertical;
 }
-.comment-body, .side-menu {
+.comment-body {
+   width :100%;
     overflow: hidden;
+
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -8099,6 +8102,7 @@ input.move-comment-checkbox {
 }
 .comments {
     margin-bottom: 24px;
+    width:100%;
 }
 .comment.is-highlighted {
     background: #ffffe9;

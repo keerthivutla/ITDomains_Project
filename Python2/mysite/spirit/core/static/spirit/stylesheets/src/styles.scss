@@ -47,7 +47,7 @@
   @extend %clearfix;
   padding: $half-spacing-size;
   border-top: $light-grey 1px solid;
-	  
+
   &:last-child {
 	border-bottom: $light-grey 1px solid;
   }
@@ -56,7 +56,7 @@
 .row-title {
   @include span-columns(4);
   margin-bottom: $half-spacing-size;
-  
+
   @include media( $medium ) {
     @include span-columns(4);
 	margin-bottom: 0;
@@ -65,7 +65,7 @@
 
 .row-link {
   color: $dark-grey;
-  
+
   &:visited,
   &.is-visited {
     color: $grey;
@@ -79,7 +79,7 @@
   div {
 	@extend %inline-block;
 	margin-left: $base-spacing-size;
-	
+
 	&:first-child {
       margin-left: 0;
     }
@@ -88,7 +88,7 @@
   .is-new {
     color: $red;
   }
-  
+
   @include media( $medium ) {
     @include span-columns(4);
 	text-align: right;
@@ -109,7 +109,7 @@
 .categories {
   @include span-columns(4);
   margin-bottom: $half-spacing-size;
-  
+
   @include media( $medium ) {
     @include span-columns(4);
   }
@@ -121,7 +121,7 @@
 
 .new-topic {
   @include span-columns(4);
-  
+
   @include media( $medium ) {
     @include span-columns(4);
 	text-align: right;
@@ -132,10 +132,10 @@
 
 .topic-moderation {
   margin-bottom: $base-spacing-size;
-	
+
   @include media( $medium ) {
 	text-align: right;
-	
+
 	.menu {
 	  text-align: left;
 	}
@@ -192,7 +192,7 @@ input.move-comment-checkbox {
 .nav {
   @extend %inline-list;
   font-size: 14px;
-  
+
   .fa {
     margin-left: $half-spacing-size;
   }
@@ -204,7 +204,7 @@ input.move-comment-checkbox {
 
 .comment {
   @extend %row;
-  
+
   &.is-highlighted {
     background: $yellow;
   }
@@ -296,7 +296,7 @@ input.move-comment-checkbox {
   &.is-admin {
     background: $yellow;
   }
-  
+
   &.is-mod {
     background: $light-blue;
   }
@@ -305,7 +305,7 @@ input.move-comment-checkbox {
 .paginator {
   @extend %inline-list;
   margin-bottom: $base-spacing-size;
-  
+
   @include media( $medium ) {
     @include span-columns(4);
   }
@@ -319,7 +319,7 @@ input.move-comment-checkbox {
 
 .notify {
   margin-bottom: $base-spacing-size * 2;
-  
+
   @include media( $medium ) {
     @include span-columns(4);
 	text-align: right;
@@ -328,7 +328,7 @@ input.move-comment-checkbox {
 
 .reply {
   padding: $half-spacing-size;
-  
+
   textarea {
     height: $base-line-height * 4;
 	margin-bottom: $half-spacing-size;
@@ -338,11 +338,11 @@ input.move-comment-checkbox {
 .reply-markdown {
   @extend %inline-list;
   margin-bottom: $base-spacing-size;
-  
+
   @include media( $medium ) {
     float: left;
   }
-  
+
   li {
     margin-left: $base-spacing-size;
   }
@@ -371,13 +371,13 @@ ul.reply-markdown {
   top: 0;
   left: 0;
   z-index: 9100;
-  
+
   display: table;
   width: 100%;
   height: 100%;
   background: $white;
   background: rgba($white, 0.75);
-  
+
   @include media( $medium ) {
     width: 300px;
     height: 150px;
@@ -407,7 +407,7 @@ ul.reply-markdown {
 .share-actions {
   @extend %inline-list;
   text-align: right;
-  
+
   li {
     margin-left: $base-spacing-size;
   }
@@ -475,11 +475,11 @@ ul.reply-markdown {
   @include media( $medium ) {
     display: inline-block;
   }
-	
+
   li {
     background-color: $lightest-grey;
     margin-bottom: $quarter-spacing-size;
-	
+
 	&:last-child {
       margin-bottom: 0;
     }
@@ -554,7 +554,7 @@ ul.reply-markdown {
 .private-participants {
   @include span-columns(4);
   margin-bottom: $half-spacing-size;
-  
+
   @include media( $medium ) {
     @include span-columns(4);
   }
@@ -563,7 +563,7 @@ ul.reply-markdown {
 .private-leave {
   @include span-columns(4);
   margin-bottom: $base-spacing-size;
-  
+
   @include media( $medium ) {
     @include span-columns(4);
 	text-align: right;
@@ -643,11 +643,11 @@ ul.reply-markdown {
 
 .message-title {
   margin-bottom: $half-spacing-size;
-  
+
   &.is-info {
     color: $dark-blue;
   }
-  
+
   &.is-error {
     color: $red;
   }
@@ -679,7 +679,7 @@ ul.reply-markdown {
 
 .new-category {
   margin-bottom: $base-spacing-size;
-  
+
   @include media( $medium ) {
 	text-align: right;
   }
@@ -687,11 +687,11 @@ ul.reply-markdown {
 
 
 
-  
+
 /*
 div.container {
   @include outer-container;
-  
+
   div.element {
     @include span-columns(4);
 	//styles
@@ -700,18 +700,18 @@ div.container {
       @include span-columns(4);
 	  //styles
     }
-	
+
 	@include media( $medium-only ) {
 	  @include omega(2n);
 	  //only for omega.
     }
-	
+
 	@include media( $large ) {
       @include span-columns(3);
 	  //styles
 	}
   }
-  
-  
+
+
 }
 */
