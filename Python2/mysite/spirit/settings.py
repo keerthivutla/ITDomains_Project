@@ -81,6 +81,8 @@ ST_BASE_DIR = os.path.dirname(__file__)
 # Django & Spirit settings defined below...
 #
 
+# ALLOWED_HOSTS = ['*']
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -117,6 +119,7 @@ INSTALLED_APPS = [
     'spirit.comment.like',
     'spirit.comment.poll',
 
+    'corsheaders',
     # 'spirit.core.tests'
 ]
 
@@ -145,10 +148,13 @@ LOGIN_URL = 'spirit:user:auth:login'
 LOGIN_REDIRECT_URL = 'spirit:user:update'
 
 MIDDLEWARE_CLASSES = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -210,3 +216,5 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(os.path.dirname(__file__), 'search', 'whoosh_index'),
     },
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
