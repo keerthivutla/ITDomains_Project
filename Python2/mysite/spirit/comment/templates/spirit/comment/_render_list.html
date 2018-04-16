@@ -1,7 +1,7 @@
 {% load spirit_tags i18n %}
 
 <div >
-<div class="comments"style="float:left;width:90%">
+<div class="comments"style="float:left;width:70%">
 
     {% for c in comments %}
 
@@ -128,89 +128,13 @@
     {% endfor %}
 
 </div>
-<div style="float:left;width:10%" >
-  Vineet jhghelkbvl;efvbel'bm'efmbef;evnelrnvlkevble  jrsg vksmb.,dmfb.,dfmb.,md.f,bmd,.fmb.,dsmfb,ms.df,mb.,dfmb.,dm .,dgk;kkgls;'f;kgl;dkfgo;d;lbd.mb ,dmvb,.msdf/mbdmf,b.dm'
-</div>
+
+<div id = "words" style="float:left;width:30%"></div>
 
 </div>
 
 
     <script>
-
-    function xml2json(xml) {
-      var json = {};
-
-      if (xml.nodeType == 1) { // element node
-        if (xml.attributes.length > 0) {
-          json['@attributes'] = {};
-          for (var j = 0; j < xml.attributes.length; j++) {
-            var attribute = xml.attributes.item(j);
-            json['@attributes'][attribute.nodeName] = attribute.nodeValue;
-          }
-        }
-      } else if (xml.nodeType == 3) { // text node
-        return xml.nodeValue;
-      }
-
-      // deal with children
-      if (xml.hasChildNodes()) {
-        for(var i = 0; i < xml.childNodes.length; i++) {
-          var child = xml.childNodes.item(i);
-          var nodeName = child.nodeName;
-          if (json[nodeName] == null) {
-            json[nodeName] = xml2json(child);
-          } else {
-            if (json[nodeName].push == null) {
-              var old = json[nodeName];
-              json[nodeName] = [];
-              json[nodeName].push(old);
-            }
-            json[nodeName].push(xml2json(child));
-          }
-        }
-      }
-
-      return json;
-    }
-
-    function xml2Object(xml) {
-       try {
-           var obj = {};
-           if (xml.children.length > 0) {
-             for (var i = 0; i < xml.children.length; i++) {
-               var item = xml.children.item(i);
-               var attributes = item.attributes;
-               for(var idx in attributes) {
-                   var itemAtt = attributes[idx];
-                   var dataKey = itemAtt.nodeName;
-                   var dataValue = itemAtt.nodeValue;
-
-                   if(dataKey !== undefined) {
-                       obj[dataKey] = dataValue;
-                   }
-               }
-               var nodeName = item.nodeName;
-
-               if (typeof (obj[nodeName]) == "undefined") {
-                 obj[nodeName] = xml2json(item);
-               } else {
-                 if (typeof (obj[nodeName].push) == "undefined") {
-                   var old = obj[nodeName];
-
-                   obj[nodeName] = [];
-                   obj[nodeName].push(old);
-                 }
-                 obj[nodeName].push(xml2json(item));
-               }
-             }
-           } else {
-             obj = xml.textContent;
-           }
-           return obj;
-         } catch (e) {
-             console.log(e.message);
-         }
-   }
 /**
 * jQuery plugin to convert a given $.ajax response xml object to json.
 *
@@ -370,11 +294,11 @@ if (typeof jQuery !== 'undefined') {
             s.modify('extend','forward','word');
             var a = s.toString();
             s.modify('move','forward','character');
-            var word = b+a;
+            var select_word = b+a;
             var request_word_id = {
                                     "async": true,
                                     "crossDomain": true,
-                                    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=mesh&term="+word,
+                                    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=mesh&term="+select_word,
                                     "method": "GET",
                                     };
             var req_id;
@@ -386,7 +310,7 @@ if (typeof jQuery !== 'undefined') {
                 // console.log(id_list);
                 /*req_id = id_list[0];
                 get_meaning(req_id);*/
-                get_meaning(id_list);
+                get_meaning(id_list[0]);
             });
             function get_meaning(req_id_list)
             {
@@ -401,7 +325,19 @@ if (typeof jQuery !== 'undefined') {
                 }
 
                 $.ajax(summary).done(function (response) {
-                    console.log(response);
+                    var xml_doc = $.parseXML(response);
+                    var jsn = $.xml2json(response);
+                    var meaning = jsn["#document"].eSummaryResult.DocSum.Item[1]._;
+                    var html_word = $("<b></b>").text(select_word).append("::");
+                    var html_meaning = $("<i></i><br>").text(meaning);
+                    var base_link = 'https://www.ncbi.nlm.nih.gov/mesh/?term=';
+                    var word_url = base_link + select_word;
+                    var mesh_url = "<a style='color:red' target='_blank' href="+word_url+">Read From Mesh</a> <br>";
+                    // var mesh_url = $('#my-link').html('<a href="http://www.google.com">Google</a>');
+                    $("#words").append(html_word,html_meaning,mesh_url);
+
+                    /* $("#words").append(html_word);
+                       $("#words").append(html_meaning);*/
                 });
             }
         })
