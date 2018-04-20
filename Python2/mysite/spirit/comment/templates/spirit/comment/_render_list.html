@@ -1,7 +1,7 @@
 {% load spirit_tags i18n %}
 
 <div >
-<div class="comments"style="float:left;width:70%">
+<div id="abc" class="comments"style="float:left;width:70%;">
 
     {% for c in comments %}
 
@@ -128,18 +128,75 @@
     {% endfor %}
 
 </div>
+<style>
 
-<div id = "words" style="float:left;width:30%"></div>
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+</style>
+<div id="words" style="float:left;width:30%;">
+<div id = "words1" class="row" style="height:50%;background-color:white;overflow:auto;">
+  <div class="tab">
+    <button class="tablinks" id="defaultOpen" onclick="searchTermIn(event, 'Mesh')">Mesh</button>
+    <button class="tablinks" onclick="searchTermIn(event, 'Medline')">Medline</button>
+    <button class="tablinks" onclick="searchTermIn(event, 'UMLS')">UMLS</button>
+    <!-- <button class="tablinks" onclick="searchTermIn(event, 'Tokyo')">Tokyo</button> -->
+  </div>
+  <!-- Tab content -->
+<div id="Mesh" class="tabcontent">
+  <!-- <h3>Mesh</h3> -->
+</div>
+
+<div id="Medline" class="tabcontent">
+  <!-- <h3>Medline</h3> -->
+</div>
+
+<div id="UMLS" class="tabcontent">
+  <!-- <h3>Tokyo</h3> -->
+  <!-- <p>Tokyo is the capital of Japan.</p> -->
+</div>
+<!-- <div class="row" style="height:50%;background-color:#000">
+</div>
+<div class="row" style="height:50%;background-color:#000">
+</div> -->
+</div>
+<div id = "words2" class="row" style="height:50%;background-color:white;overflow:auto">
+<!-- <div class="row" style="height:50%;background-color:#000">
+</div>
+<div class="row" style="height:50%;background-color:#000">
+</div> -->
+<h3> News</h3>
+</div>
+
+</div>
 
 </div>
 
 
-    <script>
+<script>
 /**
 * jQuery plugin to convert a given $.ajax response xml object to json.
 *
 * @example var json = $.xml2json(response);
 */
+function searchTermIn(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+    // $("#defaultOpen").click();
+}
 (function() {
 
 // default options based on https://github.com/Leonidas-from-XIV/node-xml2js
@@ -307,14 +364,52 @@ if (typeof jQuery !== 'undefined') {
                 var xml_doc = $.parseXML(response);
                 var jsn = $.xml2json(response);
                 var id_list = jsn["#document"].eSearchResult.IdList.Id;
+                var terms = jsn["#document"].eSearchResult.QueryTranslation;
+                terms = terms.split("OR");
+                for(var i=0; i< terms.length; i++)
+                {
+                  if(terms[i].includes("MeSH"))
+                    {console.log(terms[i].slice(0,-13));
+                    }
+                }
                 // console.log(id_list);
                 /*req_id = id_list[0];
                 get_meaning(req_id);*/
                 get_meaning(id_list[0]);
             });
+
+            var request_word_from_medline = {
+                                    "async": true,
+                                    "crossDomain": true,
+                                    "url": "https://wsearch.nlm.nih.gov/ws/query?db=healthTopics&term="+select_word,
+                                    "method": "GET",
+                                    "Origin": "http://127.0.0.1:8000",
+                                    };
+
+                                    // var word_id_med = $.ajax(request_word_from_medline).done(function (response)
+                                    // {
+                                    //   console.log(response.text);
+                                    // });
+            var medline_meaning = $.ajax(request_word_from_medline).done(function (response)
+            {
+                var xml_doc = $.parseXML(response);
+                var jsn = $.xml2json(response);
+                var id_list = jsn["#document"].nlmSearchResult.list;
+                // console.log(id_list);
+                var medline = id_list.document[0].content[5];
+                var medline_word = $("<b></b>").text(select_word).append(" ");
+                $("#Medline").append(medline_word,medline._);
+                // console.log(medline);
+                /*req_id = id_list[0];
+                get_meaning(req_id);*/
+                // get_meaning(id_list[0]);
+            });
+
             function get_meaning(req_id_list)
             {
+              // console.log(req_id_list);
                 var id_list = 'id=' + encodeURIComponent(req_id_list);
+                // console.log(id_list);
                 var summary = {
                     "async": true,
                     "crossDomain": true,
@@ -327,6 +422,7 @@ if (typeof jQuery !== 'undefined') {
                 $.ajax(summary).done(function (response) {
                     var xml_doc = $.parseXML(response);
                     var jsn = $.xml2json(response);
+                    console.log(jsn);
                     var meaning = jsn["#document"].eSummaryResult.DocSum.Item[1]._;
                     var html_word = $("<b></b>").text(select_word).append("::");
                     var html_meaning = $("<i></i><br>").text(meaning);
@@ -334,7 +430,14 @@ if (typeof jQuery !== 'undefined') {
                     var word_url = base_link + select_word;
                     var mesh_url = "<a style='color:red' target='_blank' href="+word_url+">Read From Mesh</a> <br>";
                     // var mesh_url = $('#my-link').html('<a href="http://www.google.com">Google</a>');
-                    $("#words").append(html_word,html_meaning,mesh_url);
+                    var h=$(".comments").height();
+                    // console.log(h);
+                    $("#words").height(h-50);
+                    // console.log(meaning);
+                    $("#Mesh").append(html_word,html_meaning,mesh_url);
+                    document.getElementById("defaultOpen").click();
+                    // $("#defaultOpen").click();
+                    // $("#words2").append(html_word,html_meaning,mesh_url);
 
                     /* $("#words").append(html_word);
                        $("#words").append(html_meaning);*/
@@ -343,7 +446,8 @@ if (typeof jQuery !== 'undefined') {
         })
 
     });
-/*
+
+
   $(".comment-text").click(function(){
     function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
@@ -366,7 +470,7 @@ function getTitle(text) {
   return text.match('<title>(.*)?</title>')[1];
 }
 
-  var url = 'https://utslogin.nlm.nih.gov/cas/v1/api-key/TGT-141432-DuDXiuzENtux0p4h4Kvc0SuykKDzeUmgpckdLJ7FlZWcXvCxGF-cas';
+  var url = 'https://utslogin.nlm.nih.gov/cas/v1/api-key/TGT-585502-gEnjqLXXI33Jw112Ri6wmSSSPZn1efcddRdQUPPil2WggRBBHT-cas';
   var data = "service=http%3A%2F%2Fumlsks.nlm.nih.gov";
   var xhr = createCORSRequest('POST', url);
   if (!xhr) {
@@ -379,10 +483,10 @@ function getTitle(text) {
     text = xhr.responseText;
     // var title = getTitle(text);
     // alert('Response from CORS request to ' + url + ': ' + text);
-    console.log(text);
+    // console.log(text);
     // return text;
     // get1(text);
-    console.log("ST is" + text);
+    // console.log("ST is" + text);
     var s = window.getSelection();
     s.modify('extend','backward','word');
     var b = s.toString();
@@ -390,10 +494,10 @@ function getTitle(text) {
     var a = s.toString();
     s.modify('move','forward','character');
     // alert(b+a);
-*/
-    // url1 = 'https://uts-ws.nlm.nih.gov/rest/search/current?string='+b+a+/*'&searchType=exact'+*/'&ticket='+text;
-/*
-    console.log(url1);
+
+    url1 = 'https://uts-ws.nlm.nih.gov/rest/search/current?string='+b+a+/*'&searchType=exact'+*/'&ticket='+text;
+
+    // console.log(url1);
     // var data = "service=http%3A%2F%2Fumlsks.nlm.nih.gov";
     xhr1 = createCORSRequest('GET', url1);
     if (!xhr1) {
@@ -411,7 +515,7 @@ function getTitle(text) {
       // console.log(text);
       myArr = JSON.parse(this.responseText);
       iden_num =  myArr.result.results[0].ui;
-      console.log(myArr.result.results);
+      // console.log(myArr.result.results);
 
       var xhr2 = createCORSRequest('POST', url);
       if (!xhr2) {
@@ -423,7 +527,7 @@ function getTitle(text) {
       xhr2.onload = function() {
         text = xhr2.responseText;
         url2 = 'https://uts-ws.nlm.nih.gov/rest/content/current/CUI/' +iden_num+'/definitions?ticket='+String(text);
-        console.log(url2);
+        // console.log(url2);
         // var data = "service=http%3A%2F%2Fumlsks.nlm.nih.gov";
         xhr3 = createCORSRequest('GET', url2);
         if (!xhr3) {
@@ -437,14 +541,17 @@ function getTitle(text) {
           text = xhr3.responseText;
           // var title = getTitle(text);
           // alert('Response from CORS request to ' + url + ': ' + text);
-          console.log(text);
+          // console.log(text);
           myArr1 = JSON.parse(this.responseText);
-          console.log(myArr1.result);
-          alert(myArr1.result[0].value);
+          // console.log(myArr1.result);
+          // alert(myArr1.result[0].value);
           var x = b+a;
             document.getElementById('def').innerHTML="Word - "+x.bold();
             var y = myArr1.result[0].value;
           document.getElementById('abcd').innerHTML="Meaning - "+y.bold();
+          var umls_word = $("<b></b>").text(x).append(" ");
+          $("#UMLS").append(umls_word,y);
+
         };
 
         xhr3.onerror = function() {
@@ -479,5 +586,5 @@ function getTitle(text) {
   // get(text);
   // Get CUI
 });
-*/
+
     </script>
