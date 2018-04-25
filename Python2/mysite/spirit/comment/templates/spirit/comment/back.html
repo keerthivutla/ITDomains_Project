@@ -1,7 +1,7 @@
 {% load spirit_tags i18n %}
 
 <div >
-<div id="abc" class="comments" >
+<div id="abc" class="comments"style="float:left;width:70%;">
 
     {% for c in comments %}
 
@@ -138,52 +138,59 @@
     border-top: none;
 }
 </style>
+<div id="words" style="float:left;width:30%;height:570px">
 
+<div id = "words2" class="row" style="height:50%;background-color:white;overflow:auto">
+<!-- <div class="row" style="height:50%;background-color:#000">
+</div>
+<div class="row" style="height:50%;background-color:#000">
+</div> -->
+<!-- <div id="news" style="background-color:white;overflow:auto;position:fixed;"> -->
+<div id="news" style="background-color:white;overflow:auto;position: fixed;">
+        <h3>News </h3>
+            <marquee>
+                <div id="news-content">
+                    <body onload ="getnews();"></body>
+                </div>
+            </marquee>
+            
+</div>
 
+</div>
+<!-- <div id = "words1" class="row" style="height:50%;background-color:white;overflow:auto;position:fixed;"> -->
+    <div id = "words1" class="row" style="height:50%;background-color:white;overflow:auto;position: fixed">
+  <div class="tab">
+    <button class="tablinks" id="defaultOpen" onclick="searchTermIn(event, 'Mesh')">Mesh</button>
+    <button class="tablinks" onclick="searchTermIn(event, 'Medline')">Medline</button>
+    <button class="tablinks" onclick="searchTermIn(event, 'UMLS')">UMLS</button>
+    <!-- <button class="tablinks" onclick="searchTermIn(event, 'Tokyo')">Tokyo</button> -->
+  </div>
+  <!-- Tab content -->
 
+<div id="Mesh" class="tabcontent">
+  <!-- <h3>Mesh</h3> -->
+</div>
+
+<div id="Medline" class="tabcontent">
+  <!-- <h3>Medline</h3> -->
+</div>
+
+<div id="UMLS" class="tabcontent">
+  <!-- <h3>Tokyo</h3> -->
+  <!-- <p>Tokyo is the capital of Japan.</p> -->
+</div>
+<!-- <div class="row" style="height:50%;background-color:#000">
+</div>
+<div class="row" style="height:50%;background-color:#000">
+</div> -->
+</div>
 
 </div>
 
-<style>
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-}
+    
 
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
+</div>
 
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-</style>
 
 <script>
 /**
@@ -191,198 +198,17 @@
 *
 * @example var json = $.xml2json(response);
 */
-$(function(){
-   identify_mesh_terms();
-});
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-async function identify_mesh_terms()
-{
-  var element = document.getElementsByClassName('comment');
-  console.log(element.length);
-  for(var i=0; i< element.length; i++)
-  {
-    const allterms =[];
-    // console.log(i);
-    var html = element[i].innerText;
-    // console.log(html);
-    var html = html.split('\n');
-    // console.log(html);
-    html = html.slice(3,-3);
-    html = html.toString();
-    html = html.split(/[\s,.()]+/);
-    // console.log(html.split(/[\s,.]+/));
-    for (var j=0; j < html.length; j++)
-    {
-        if(html[j].length>3)
-        // var j = 0;
-        {
-          var term = html[j];
-          var words = "";
-          var request_word_id = {
-                                  "async": true,
-                                  "crossDomain": true,
-                                  "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=mesh&term="+term,
-                                  "method": "GET",
-                                  };
-          await $.ajax(request_word_id).done(function (response)
-          {
-              var xml_doc = $.parseXML(response);
-              var jsn = $.xml2json(response);
-              // console.log(jsn);
-              var id_list = jsn["#document"].eSearchResult.IdList.Id;
-              // console.log(jsn["#document"].eSearchResult.TranslationSet.length);
-              var check = jsn["#document"].eSearchResult.TranslationSet.length;
-              if (typeof check == 'undefined')
-              {
-                var terms = jsn["#document"].eSearchResult.QueryTranslation;
-                terms = terms.split("OR");
-                for(var k=0; k< terms.length; k++)
-                {
-                  if(terms[k].includes("MeSH"))
-                  {
-                    console.log(terms[k].slice(0,-13));
-                    words = words + terms[k].slice(0,-13);
-                  }
-                }
-                // console.log(true);
-                // value = "true";
-                var re = new RegExp(term,"g");
-                // console.log(i);
-                // console.log(html);
-                // console.log(words);
-                element[i].innerHTML = element[i].innerHTML.replace(re,"<mark>"+term+"</mark>");
-                // element[i].innerHTML = element[i].innerHTML.replace(re,"<div class=tooltip>" + term+"<span class=tooltiptext>"+words+ "</span></div>");
-                // console.log(allterms);
-                if (allterms.indexOf(term.toLowerCase()) == -1)
-                {
-                  allterms.push(term.toLowerCase());
-                  // console.log(term);
-                  get_meaning(id_list[0], term);
-                }
-                else {
 
-                }
-              }
-              else {
-                // console.log(false);
-                value = "false";
-              }
-          });
-          // await sleep(3000);
-          // console.log(a);
-        }
-    }
-    // html = html.slice(23,-1);
-    // html = html.slice(0,-34);
-    // console.log(html);
-    // console.log(html.length);
 
-  }
-  // var data = { html: html };
-  // var html = element[1].innerText;
-  // var header = html.slice(0,23);
-  // var footer = html.slice(-34,-10);
-  // console.log(header);
-  // console.log(footer);
-  // element[1].innerText= header+"Vineet"+footer;
-  // console.log(data);
-  // var json = JSON.stringify(data);
-  // console.log(json);
-  // check_if_a_term_is_in_mesh('abcd');
-};
 
-function get_meaning(req_id_list, select_word)
-{
-  // console.log(req_id_list);
-    var id_list = 'id=' + encodeURIComponent(req_id_list);
-    // console.log(id_list);
-    var summary = {
-        "async": true,
-        "crossDomain": true,
-        "data": id_list,
-        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=mesh",
-        // "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=mesh&id="+req_id_list,
-        "method": "GET",
-    }
-
-    $.ajax(summary).done(function (response) {
-        var xml_doc = $.parseXML(response);
-        var jsn = $.xml2json(response);
-        console.log(jsn);
-        var meaning = jsn["#document"].eSummaryResult.DocSum.Item[1]._;
-        var html_word = $("<b></b>").text(select_word).append("::");
-        var html_meaning = $("<i></i><br>").text(meaning);
-        var base_link = 'https://www.ncbi.nlm.nih.gov/mesh/?term=';
-        var word_url = base_link + select_word;
-        var mesh_url = "<a style='color:red' target='_blank' href="+word_url+">Read From Mesh</a> <br>";
-        // var mesh_url = $('#my-link').html('<a href="http://www.google.com">Google</a>');
-        var h=$(".comments").height();
-        // console.log(h);
-        // $("#words").height(h-50);
-        // console.log(meaning);
-        $("#Mesh").append(html_word,html_meaning,mesh_url);
-        document.getElementById("defaultOpen").click();
-        // $("#defaultOpen").click();
-        // $("#words2").append(html_word,html_meaning,mesh_url);
-
-        /* $("#words").append(html_word);
-           $("#words").append(html_meaning);*/
-    });
-}
-
-function check_if_a_term_is_in_mesh(term)
-{
-  var value;
-  var request_word_id = {
-                          "async": true,
-                          "crossDomain": true,
-                          "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=mesh&term="+term,
-                          "method": "GET",
-                          };
-  var req_id;
-  $.ajax(request_word_id).done(function (response)
-  {
-      var xml_doc = $.parseXML(response);
-      var jsn = $.xml2json(response);
-      console.log(jsn);
-      var id_list = jsn["#document"].eSearchResult.IdList.Id;
-      // console.log(jsn["#document"].eSearchResult.TranslationSet.length);
-      var check = jsn["#document"].eSearchResult.TranslationSet.length;
-      if (typeof check == 'undefined')
-      {
-        var terms = jsn["#document"].eSearchResult.QueryTranslation;
-        terms = terms.split("OR");
-        for(var i=0; i< terms.length; i++)
-        {
-          if(terms[i].includes("MeSH"))
-          {console.log(terms[i].slice(0,-13));
-          }
-        }
-        // console.log(true);
-        value = "true";
-      }
-      else {
-        // console.log(false);
-        value = "false";
-      }
-      // .Translation.To.length
-      // console.log(id_list);
-      /*req_id = id_list[0];
-      get_meaning(req_id);*/
-      // get_meaning(id_list[0]);
-  });
-  // await sleep(2000);
-  // console.log("value is " + value);
-  return value;
-}
 function getnews()
     {
-    var requrl = ('https://newsapi.org/v2/everything?' +
-           'q=diabetes mellitus&' +
-           'language=en&' +
-           'sortBy=popularity&' +
+
+
+    var requrl = ('https://newsapi.org/v2/everything?' +    
+           'q=diabetes mellitus&' + 
+           'language=en&' + 
+           'sortBy=popularity&' + 
            'apiKey=c413b869cae84e6e92ad860285700c3a');
 
       // var requrl = 'https://newsapi.org/v2/top-headlines?' + 'country=us&' + 'apiKey=c413b869cae84e6e92ad860285700c3a';
@@ -393,7 +219,7 @@ function getnews()
         url:requrl,
         type:'GET',
         success:function(obj){
-            for (i = 0; i <10; i++) {
+            for (i = 0; i <10; i++) { 
                 author = obj.articles[i].author;
                 title = obj.articles[i].title;
                 art_url = obj.articles[i].url;
@@ -412,7 +238,7 @@ function getnews()
     //         var temp = JSON.stringify(response.json());
     //         var obj = JSON.parse(temp);
     //         var i;
-    //         for (i = 0; i <10; i++) {
+    //         for (i = 0; i <10; i++) { 
     //             text = obj.articles[i].author;
     //             final_list[final_list.length] = text;
     //         }

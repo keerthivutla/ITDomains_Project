@@ -5,8 +5,9 @@
             {% if category %}
 			    <a class="dropdown-button js-tab" href="#" data-related=".js-categories-content">{{ category.title }} <i class="fa fa-chevron-down"></i></a>
 			{% else %}
-                <a class="dropdown-button js-tab" href="#" data-related=".js-categories-content">{% trans "ALl Categories" %} <i class="fa fa-chevron-down"></i></a>
+                <a class="dropdown-button js-tab" href="#" data-related=".js-categories-content">{% trans "ALL Categories" %} <i class="fa fa-chevron-down"></i></a>
             {% endif %}
+
 			<div class="tab-content js-tab-content js-categories-content">
 				<ul class="menu">
                     {% for c in categories %}

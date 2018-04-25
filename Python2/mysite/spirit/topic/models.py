@@ -42,6 +42,8 @@ class Topic(models.Model):
     view_count = models.PositiveIntegerField(_("views count"), default=0)
     comment_count = models.PositiveIntegerField(_("comment count"), default=0)
 
+    summary = models.CharField(_("summary"), max_length=1000)
+
     objects = TopicQuerySet.as_manager()
 
     class Meta:

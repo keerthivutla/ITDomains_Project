@@ -7737,10 +7737,10 @@ label input[type=checkbox] {
     margin: 6px 12px 0;
 }
 @font-face {
-    font-family: Ubuntu;
+    font-family: Monsterrat;
     font-style: normal;
     font-weight: 300;
-    src: url(vendors/fonts/Ubuntu-300.woff2) format("woff2"), url(vendors/fonts/Ubuntu-300.woff) format("woff");
+    src: url(vendors/fonts/Monts.woff2) format("woff2"), url(vendors/fonts/Monts.woff) format("woff");
 }
 a:focus, a:hover {
     color: #1c1c1c;
@@ -7941,10 +7941,10 @@ h2 {
 }
 .comment, .row {
     padding: 12px;
-    border-top: #cecece 1px solid;
+    /*border-top: #cecece 1px solid;*/
 }
 .comment:last-child, .row:last-child {
-    border-bottom: #cecece 1px solid;
+    /*border-bottom: #cecece 1px solid;*/
 }
 .row-title {
     margin-right: 7.42297%;
@@ -7969,7 +7969,8 @@ h2 {
     color: #444;
 }
 .row-info, .row-link.is-visited, .row-link:visited {
-    color: #979797;
+    color: #000000;
+    font-size: 20px;
 }
 .row-info {
     margin-right: 7.42297%;
@@ -8447,4 +8448,8 @@ ul.reply-markdown {
     .new-category {
     text-align: right;
 }
+}
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
 }

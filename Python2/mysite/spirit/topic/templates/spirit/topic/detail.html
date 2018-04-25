@@ -5,8 +5,6 @@
 {% block title %}{{ topic.title }}{% endblock %}
 
 {% block content %}
-
-
         <ul class="nav">
             <li><a href="{% url "spirit:index" %}" >{% trans "Categories" %}</a><i class="fa fa-chevron-right"></i></li>
 
@@ -18,6 +16,7 @@
         </ul>
 
 
+<div style="float:left;width:70%;height:800px;overflow: auto;">
         <h1 class="headline">
             {% if topic.is_pinned or topic.is_globally_pinned %}
                 <i class="fa fa-thumb-tack"></i>
@@ -79,6 +78,7 @@
                 </div>
             </div>
         {% endif %}
+
 
         {% include "spirit/comment/_render_list.html" %}
 
@@ -156,7 +156,53 @@
 
                 </div>
 
+            
+        </div>
+        <div id="words" style="float:left;width:30%;height:750px">
 
+<div id = "words2" class="row" style="height:50%;background-color:white;overflow:auto">
+<!-- <div class="row" style="height:50%;background-color:#000">
+</div>
+<div class="row" style="height:50%;background-color:#000">
+</div> -->
+<div id="news" style="background-color:white;overflow:auto;">
+        <h3>News </h3>
+            <marquee>
+                <div id="news-content">
+                    <body onload ="getnews();"></body>
+                </div>
+            </marquee>
+</div>
+
+</div>
+<div id = "words1" class="row" style="height:50%;background-color:white;overflow:auto;">
+  <div class="tab">
+    <button class="tablinks" id="defaultOpen" onclick="searchTermIn(event, 'Mesh')">Mesh</button>
+    <button class="tablinks" onclick="searchTermIn(event, 'Medline')">Medline</button>
+    <button class="tablinks" onclick="searchTermIn(event, 'UMLS')">UMLS</button>
+    <!-- <button class="tablinks" onclick="searchTermIn(event, 'Tokyo')">Tokyo</button> -->
+  </div>
+  <!-- Tab content -->
+
+<div id="Mesh" class="tabcontent">
+  <!-- <h3>Mesh</h3> -->
+</div>
+
+<div id="Medline" class="tabcontent">
+  <!-- <h3>Medline</h3> -->
+</div>
+
+<div id="UMLS" class="tabcontent">
+  <!-- <h3>Tokyo</h3> -->
+  <!-- <p>Tokyo is the capital of Japan.</p> -->
+</div>
+<!-- <div class="row" style="height:50%;background-color:#000">
+</div>
+<div class="row" style="height:50%;background-color:#000">
+</div> -->
+</div>
+
+</div>
             <script>
                 $( document ).ready(function() {
 

@@ -22,6 +22,7 @@ from . import utils
 import summa
 from summa import keywords
 import spacy,en_core_web_sm
+nlp = en_core_web_sm.load()
 
 @login_required
 @ratelimit(rate='1/10s')
@@ -101,13 +102,14 @@ def detail(request, pk, slug):
         .with_polls(user=request.user)\
         .order_by('date')
 
+
     sum_text = ""
     for comment in comments:
         sum_text+= comment.comment
 
 
    
-    nlp = en_core_web_sm.load()
+    
     doc = nlp(sum_text)
     final=""
 
@@ -123,7 +125,7 @@ def detail(request, pk, slug):
     summary = summa.summarizer.summarize(final,ratio=0.3)
     words = keywords.keywords(sum_text)
     words = words.split('\n')
-    print(summary)
+    # print(summary)
 
     keys = []
     for i in words:
@@ -158,6 +160,39 @@ def index_active(request):
         .order_by('-is_globally_pinned', '-last_active')\
         .select_related('category')
 
+
+    summs = []
+    for i, topic in enumerate(topics):
+        comments = Comment.objects\
+            .for_topic(topic=topic)\
+            .with_likes(user=request.user)\
+            .with_polls(user=request.user)\
+            .order_by('date')
+
+        
+        sum_text = ""
+        for comment in comments:
+            sum_text+= comment.comment
+
+
+        doc = nlp(sum_text)
+        final=""
+
+        for idno, sentence in enumerate(doc.sents):
+            temp = str(sentence).strip()
+            final = final + temp + " "
+        
+
+        summary = summa.summarizer.summarize(final,ratio=0.3)
+        words = keywords.keywords(sum_text)
+        words = words.split('\n')
+        summs.append(summary)
+        topic.summary = summary
+        # print(summary)
+
+    for topic in topics:
+        print(topic.summary)
+
     topics = yt_paginate(
         topics,
         per_page=config.topics_per_page,
@@ -166,7 +201,7 @@ def index_active(request):
 
     context = {
         'categories': categories,
-        'topics': topics
+        'topics': topics,
     }
 
     return render(request, 'spirit/topic/active.html', context)
