@@ -80,8 +80,8 @@ ST_BASE_DIR = os.path.dirname(__file__)
 #
 # Django & Spirit settings defined below...
 #
-
-# ALLOWED_HOSTS = ['*']
+DEBUG= True
+# ALLOWED_HOSTS = ['172.16.81.205','127.0.0.1','localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

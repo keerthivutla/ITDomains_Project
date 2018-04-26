@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="comment-body">
-                      dffdk
+
                         <div class="comment-info">
 
                             <div class="comment-username">
@@ -128,6 +128,7 @@
     {% endfor %}
 
 </div>
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <style>
 
 /* Style the tab content */
@@ -153,35 +154,23 @@
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 120px;
-    background-color: #555;
+    width: 160px;
+    background-color: orange;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
+
+    /* Position the tooltip */
     position: absolute;
     z-index: 1;
-    bottom: 125%;
-    left: 50%;
+    bottom: 100%;
+    left: 100%;
     margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
-    opacity: 1;
 }
 </style>
 
@@ -209,21 +198,23 @@ async function identify_mesh_terms()
     // console.log(html);
     var html = html.split('\n');
     // console.log(html);
-    html = html.slice(3,-3);
+    html = html.slice(3,-2);
+    // console.log(html);
     html = html.toString();
+    // console.log(html);
     html = html.split(/[\s,.()]+/);
-    // console.log(html.split(/[\s,.]+/));
+    console.log(html);
     for (var j=0; j < html.length; j++)
     {
         if(html[j].length>3)
         // var j = 0;
         {
           var term = html[j];
-          var words = "";
+          var words = [];
           var request_word_id = {
                                   "async": true,
                                   "crossDomain": true,
-                                  "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=mesh&term="+term,
+                                  "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=mesh&term="+term+"&sort=relevance",
                                   "method": "GET",
                                   };
           await $.ajax(request_word_id).done(function (response)
@@ -238,12 +229,14 @@ async function identify_mesh_terms()
               {
                 var terms = jsn["#document"].eSearchResult.QueryTranslation;
                 terms = terms.split("OR");
+                // words= "";
                 for(var k=0; k< terms.length; k++)
                 {
                   if(terms[k].includes("MeSH"))
                   {
-                    console.log(terms[k].slice(0,-13));
-                    words = words + terms[k].slice(0,-13);
+                    // console.log(terms[k].slice(0,-13));
+                    words.push(terms[k].slice(0,-13));
+                    console.log(words);
                   }
                 }
                 // console.log(true);
@@ -251,15 +244,33 @@ async function identify_mesh_terms()
                 var re = new RegExp(term,"g");
                 // console.log(i);
                 // console.log(html);
-                // console.log(words);
-                element[i].innerHTML = element[i].innerHTML.replace(re,"<mark>"+term+"</mark>");
-                // element[i].innerHTML = element[i].innerHTML.replace(re,"<div class=tooltip>" + term+"<span class=tooltiptext>"+words+ "</span></div>");
+                console.log(typeof words);
+                // element[i].innerHTML = element[i].innerHTML.replace(re,"<mark>"+term+"</mark>");
                 // console.log(allterms);
                 if (allterms.indexOf(term.toLowerCase()) == -1)
                 {
                   allterms.push(term.toLowerCase());
                   // console.log(term);
+                  var hover_text="";
+                  for(l=0;l<words.length;l++)
+                  {
+                    // words[l]=words[l].replace(/ /,'%20');
+                    if(words[l][0] == " ")
+                    {
+                      words[l]=words[l].slice(1);
+                    }
+                    words[l]=words[l].replace(/"/g,'');
+                    // console.log(words[l][0]);
+
+                    var url = encodeURI("https://meshb.nlm.nih.gov/record/ui?name="+ words[l]);
+                    console.log(url);
+                    hover_text = hover_text + "<a target='_blank' href="+ url +">"+words[l]+"</a>"+"\n";
+                  }
+                  console.log(hover_text);
                   get_meaning(id_list[0], term);
+                  element[i].innerHTML = element[i].innerHTML.replace(re,
+                    // "<span>"+hover_text+"</span>");
+                    "<p class=tooltip>"+term+" <span style=position:absolute;left:50px;bottom:18px class=tooltiptext>" + hover_text + "</span></p>");
                 }
                 else {
 
@@ -314,8 +325,8 @@ function get_meaning(req_id_list, select_word)
         var meaning = jsn["#document"].eSummaryResult.DocSum.Item[1]._;
         var html_word = $("<b></b>").text(select_word).append("::");
         var html_meaning = $("<i></i><br>").text(meaning);
-        var base_link = 'https://www.ncbi.nlm.nih.gov/mesh/?term=';
-        var word_url = base_link + select_word;
+        var base_link = 'https://www.ncbi.nlm.nih.gov/mesh/';
+        var word_url = base_link + req_id_list;
         var mesh_url = "<a style='color:red' target='_blank' href="+word_url+">Read From Mesh</a> <br>";
         // var mesh_url = $('#my-link').html('<a href="http://www.google.com">Google</a>');
         var h=$(".comments").height();
@@ -667,8 +678,8 @@ if (typeof jQuery !== 'undefined') {
                     var meaning = jsn["#document"].eSummaryResult.DocSum.Item[1]._;
                     var html_word = $("<b></b>").text(select_word).append("::");
                     var html_meaning = $("<i></i><br>").text(meaning);
-                    var base_link = 'https://www.ncbi.nlm.nih.gov/mesh/?term=';
-                    var word_url = base_link + select_word;
+                    var base_link = 'https://www.ncbi.nlm.nih.gov/mesh/';
+                    var word_url = base_link + req_id_list[0];
                     var mesh_url = "<a style='color:red' target='_blank' href="+word_url+">Read From Mesh</a> <br>";
                     // var mesh_url = $('#my-link').html('<a href="http://www.google.com">Google</a>');
                     var h=$(".comments").height();
